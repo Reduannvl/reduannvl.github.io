@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   const reveals = document.querySelectorAll('.reveal');
   const header = document.querySelector('.site-header');
+  const bgScene = document.querySelector('.bg-3d');
 
   const observer = new IntersectionObserver(
     (entries) => {
@@ -26,6 +27,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
     updateHeader();
     window.addEventListener('scroll', updateHeader, { passive: true });
+  }
+
+  if (bgScene) {
+    const objects = bgScene.querySelectorAll('.orb, .ring');
+
+    window.addEventListener('pointermove', (event) => {
+      const x = (event.clientX / window.innerWidth - 0.5) * 18;
+      const y = (event.clientY / window.innerHeight - 0.5) * 18;
+
+      objects.forEach((item, index) => {
+        const depth = (index + 1) * 1.4;
+        item.style.transform += ` translate3d(${x * depth}px, ${y * depth}px, 0px)`;
+      });
+    });
   }
 
   const yearNode = document.querySelector('[data-year]');
